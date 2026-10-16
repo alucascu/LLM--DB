@@ -1,7 +1,7 @@
-from openai import OpenAI
 import os
-from dotenv import load_dotenv
 
+from openai import OpenAI
+from pydantic import BaseModel
 
 class LanguageModel:
     
