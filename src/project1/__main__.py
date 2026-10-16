@@ -1,11 +1,11 @@
-from src.project1.doc import DocumentProcessor
-from src.project1.llm import LanguageModel
-from src.project1.jsonparser import JsonParser
+from project1.doc import DocumentProcessor
+from project1.llm import LanguageModel
+from project1.jsonparser import JsonParser
 import os
+
 
 def main():
     DocumentProcessor.proccess_documents()
-
 
     # Runs through all the articles in the Articles folder and processes them into JSON files
 
@@ -15,11 +15,10 @@ def main():
         num += 1
 
         if filename.endswith(".txt"):
-
             filepath = os.path.join("Articles", filename)
-        
+
             print("Processing:", filename)
-        
+
             response = LanguageModel.article_to_json(filepath)
             JsonParser.create_json(response, num)
 
@@ -27,12 +26,9 @@ def main():
 
     for filename in os.listdir("Json"):
         if filename.endswith(".json"):
-        
             json_file_path = os.path.join("Json", filename)
             JsonParser.json_to_sqlite(json_file_path)
 
-        
+
 if __name__ == "__main__":
     main()
-
-       
