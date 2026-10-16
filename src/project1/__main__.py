@@ -1,10 +1,18 @@
-from project1.doc import DocumentProcessor
-from project1.llm import LanguageModel
-from project1.jsonparser import JsonParser
 import os
+
+from dotenv import load_dotenv
+
+from project1.doc import DocumentProcessor
+from project1.jsonparser import JsonParser
+from project1.llm import LanguageModel
 
 
 def main():
+    load_dotenv()
+    api_key = os.getenv("OPENAI_API_KEY")
+
+    model = LanguageModel(api_key)
+
     DocumentProcessor.proccess_documents()
 
     # Runs through all the articles in the Articles folder and processes them into JSON files
@@ -19,7 +27,10 @@ def main():
 
             print("Processing:", filename)
 
-            response = LanguageModel.article_to_json(filepath)
+            with open(filepath, "r", encoding="utf-8") as file:
+                article_text = file.read()
+
+            response = model.article_to_json(article=article_text)
             JsonParser.create_json(response, num)
 
     # Runs through all the JSON files in the Json folder and adds them to the SQLite database
